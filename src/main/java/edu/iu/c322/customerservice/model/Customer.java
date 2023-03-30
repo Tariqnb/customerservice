@@ -1,10 +1,16 @@
 package edu.iu.c322.customerservice.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.Objects;
-
+@Entity
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotEmpty(message = "name cannot be empty")
     private String name;
@@ -33,7 +39,6 @@ public class Customer {
     public void setEmail(String email) {
         this.email = email;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -46,4 +51,5 @@ public class Customer {
     public int hashCode() {
         return Objects.hash(id, name, email);
     }
+
 }
