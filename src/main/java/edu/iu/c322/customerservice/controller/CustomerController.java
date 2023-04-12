@@ -2,25 +2,32 @@ package edu.iu.c322.customerservice.controller;
 
 import edu.iu.c322.customerservice.model.Customer;
 import edu.iu.c322.customerservice.repository.CustomerRepository;
+import edu.iu.c322.customerservice.repository.InMemoryCustomerRepository;
+import edu.iu.c322.customerservice.repository.InMemoryCustomerRepository;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/customers")
-public class CustomerController {
+public class CustomerController  {
     private CustomerRepository repository;
 
     public CustomerController(CustomerRepository repository) {
         this.repository = repository;
     }
 
+
     // Get localhost:8080/customers
     @GetMapping
     public List<Customer> findAll(){
         return repository.findAll();
     }
+
+
     @PostMapping
     public int create(@Valid @RequestBody Customer customer){
         Customer newCustomer = repository.save(customer);
@@ -38,5 +45,4 @@ public class CustomerController {
         customer.setId(id);
         repository.delete(customer);
     }
-
 }
