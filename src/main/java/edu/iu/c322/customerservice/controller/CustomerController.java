@@ -7,6 +7,7 @@ import edu.iu.c322.customerservice.repository.InMemoryCustomerRepository;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,9 +36,14 @@ public class CustomerController  {
     }
     //PUT localhost:8080/customers/2
     @PutMapping("/{id}")
-    public void update(@Valid @RequestBody Customer customer, @PathVariable int id){
-        customer.setId(id);
-        repository.save(customer);
+    public ResponseEntity<String> update(@Valid @RequestBody Customer customer, @PathVariable int id) {
+        if(repository.existsById(id)) {
+            customer.setId(id);
+            repository.save(customer);
+            return ResponseEntity.ok("Customer information updated successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid customer ID");
+        }
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id){
